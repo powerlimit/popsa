@@ -1,49 +1,17 @@
-import styled from "styled-components";
+import {useState} from "react";
+import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+
 import Actions from "./actions";
-
-const Wrapper = styled.div`
-  width: 600px;
-  margin: auto;
-  color: #585858;
-`;
-
-const PrintWrapper = styled.div``;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Title = styled.div`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-`;
-
-const PageLayout = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  background: #2778a5;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 17px 0 42px;
-  justify-content: space-between;
-`;
-
-const PrintPhoto = styled.div`
-  width: calc(50% - 10px);
-  img {
-    max-width: 100%;
-  }
-`;
+import {Header, PageLayout, PrintWrapper, Title, Wrapper} from "./styles";
+import {DndContextWrap, Sortable} from "./dndComponents";
 
 export default function PrintPage({ data }) {
+  const [items, setItems] = useState(data)
+
   return (
-    <>
+    <DndContextWrap items={items} setItems={setItems}>
       <Wrapper>
-        {Object.values(data).map((entry, i) => {
+        {Object.values(items).map((entry, i) => {
           return (
             <PrintWrapper key={i}>
               <Header>
@@ -51,18 +19,16 @@ export default function PrintPage({ data }) {
                 <Actions />
               </Header>
               <PageLayout>
-                {entry.images.map((image) => {
-                  return (
-                    <PrintPhoto key={image}>
-                      <img src={image} alt="" />
-                    </PrintPhoto>
-                  );
-                })}
+                <SortableContext id={i.toString()} items={entry.images} strategy={rectSortingStrategy}>
+                  {entry.images.map((image) => {
+                    return <Sortable image={image} key={image}/>
+                  })}
+                </SortableContext>
               </PageLayout>
             </PrintWrapper>
           );
         })}
       </Wrapper>
-    </>
+    </DndContextWrap>
   );
 }
