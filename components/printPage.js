@@ -11,16 +11,16 @@ export default function PrintPage({ data }) {
   return (
     <DndContextWrap items={items} setItems={setItems}>
       <Wrapper>
-        {Object.values(items).map((entry, i) => {
+        {Object.values(items).map(({title, images}, i) => {
           return (
             <PrintWrapper key={i}>
               <Header>
-                <Title>{entry.title}</Title>
+                <Title>{title}</Title>
                 <Actions />
               </Header>
               <PageLayout>
-                <SortableContext id={i.toString()} items={entry.images} strategy={rectSortingStrategy}>
-                  {entry.images.map((image) => {
+                <SortableContext id={i.toString()} items={images} strategy={rectSortingStrategy}>
+                  {images.map((image) => {
                     return <Sortable image={image} key={image}/>
                   })}
                 </SortableContext>
