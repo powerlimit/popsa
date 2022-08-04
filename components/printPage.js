@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import Actions from "./actions";
-import { Reorder } from "framer-motion"
-import {useState} from "react";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -24,7 +22,7 @@ const Title = styled.div`
   line-height: 20px;
 `;
 
-const PageLayout = styled(Reorder.Group)`
+const PageLayout = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: #2778a5;
@@ -32,62 +30,39 @@ const PageLayout = styled(Reorder.Group)`
   padding: 20px;
   margin: 17px 0 42px;
   justify-content: space-between;
-  align-items: center;
-  height: 225px;
 `;
 
-const PrintPhoto = styled(Reorder.Item)`
+const PrintPhoto = styled.div`
   width: calc(50% - 10px);
-  background-position: center center;
-  background-image: url(${({bg}) => bg});
-  background-size: cover;
-  height: 184px;
-  list-style: none;
+  img {
+    max-width: 100%;
+  }
 `;
-
-const whileDragStyles = {
-  border: '5px solid white',
-  width: 184,
-  borderRadius: '50%',
-  objectFit: 'cover',
-}
-
-
-function PrintPhotos ({images}) {
-  const [items, setItems] = useState([0, 1])
-
-  return (
-    <PageLayout values={items} onReorder={setItems}>
-      {items.map((item) => {
-        return (
-          <PrintPhoto
-            dragMomentum={false}
-            whileDrag={whileDragStyles}
-            bg={images[item]}
-            key={item}
-            value={item}
-            drag
-          />
-        );
-      })}
-    </PageLayout>
-  )
-}
 
 export default function PrintPage({ data }) {
   return (
-    <Wrapper>
-      {Object.values(data).map((entry, i) => {
-        return (
-          <PrintWrapper key={i}>
-            <Header>
-              <Title>{entry.title}</Title>
-              <Actions />
-            </Header>
-            <PrintPhotos images={entry.images} />
-          </PrintWrapper>
-        );
-      })}
-    </Wrapper>
+    <>
+      <Wrapper>
+        {Object.values(data).map((entry, i) => {
+          return (
+            <PrintWrapper key={i}>
+              <Header>
+                <Title>{entry.title}</Title>
+                <Actions />
+              </Header>
+              <PageLayout>
+                {entry.images.map((image) => {
+                  return (
+                    <PrintPhoto key={image}>
+                      <img src={image} alt="" />
+                    </PrintPhoto>
+                  );
+                })}
+              </PageLayout>
+            </PrintWrapper>
+          );
+        })}
+      </Wrapper>
+    </>
   );
 }
