@@ -3,7 +3,8 @@ import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 
 import Actions from "./actions";
 import {Header, PageLayout, PrintWrapper, Title, Wrapper} from "./styles";
-import {DndContextWrap, Sortable} from "./dndComponents";
+import DndContextWrap from "./dnd/DndContextWrap";
+import SortableItem from "./dnd/SortableItem";
 
 export default function PrintPage({ data }) {
   const [items, setItems] = useState(data)
@@ -21,7 +22,7 @@ export default function PrintPage({ data }) {
               <PageLayout>
                 <SortableContext id={i.toString()} items={images} strategy={rectSortingStrategy}>
                   {images.map((image) => {
-                    return <Sortable image={image} key={image}/>
+                    return <SortableItem image={image} key={image}/>
                   })}
                 </SortableContext>
               </PageLayout>
