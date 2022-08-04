@@ -21,9 +21,7 @@ export default function PrintPage({ data }) {
               </Header>
               <PageLayout>
                 <SortableContext id={i.toString()} items={images} strategy={rectSortingStrategy}>
-                  {images.map((image) => {
-                    return <SortableItem image={image} key={image}/>
-                  })}
+                  {images.map((image) => <SortableItem image={image} key={image}/>)}
                 </SortableContext>
               </PageLayout>
             </PrintWrapper>
