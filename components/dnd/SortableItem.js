@@ -2,9 +2,9 @@ import { useSortable } from "@dnd-kit/sortable";
 
 import { PrintPhoto } from "../styles";
 
-const ON_DRAG_STYLES_CONFIG = {
-	activeOpacity: 0.5,
-	normalOpacity: 1
+const OpacityConfig = {
+	ACTIVE: 0.5,
+	DEFAULT: 1
 }
 
 export default function SortableItem({image}) {
@@ -19,7 +19,7 @@ export default function SortableItem({image}) {
 
 	const style = {
 		zIndex: Number(isDragging),
-		opacity: isDragging ? ON_DRAG_STYLES_CONFIG.activeOpacity : ON_DRAG_STYLES_CONFIG.normalOpacity
+		opacity: isDragging ? OpacityConfig.ACTIVE : OpacityConfig.DEFAULT
 	};
 
 	return (
